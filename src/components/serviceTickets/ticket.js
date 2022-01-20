@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getSingleTicket, ticketPut } from "../ApiManager";
+import { getAllEmployees } from "../ApiManager";
 
 export const Ticket = () => {
     const [ ticket, setTicket ] = useState({})
@@ -10,7 +12,7 @@ export const Ticket = () => {
 
     useEffect(
         () => {
-            return fetch(`http://localhost:8088/serviceTickets/${ticketId}?_expand=customer&_expand=employee`)
+            getSingleTicket(ticketId)
                 .then(response => response.json())
                 .then((data) => {
                     setTicket(data)
@@ -21,7 +23,7 @@ export const Ticket = () => {
 
     useEffect(
         () => {
-            return fetch("http://localhost:8088/employees")
+            getAllEmployees()
                 .then(response => response.json())
                 .then((data) => {
                     setEmployees(data)
@@ -41,13 +43,7 @@ export const Ticket = () => {
 
 
 
-        return fetch(`http://localhost:8088/serviceTickets/${ticketId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newServiceTicketObject)
-        })
+        ticketPut(ticketId, newServiceTicketObject)
             .then(() => {
                 history.push("/tickets")
             }

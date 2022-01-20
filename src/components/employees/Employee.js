@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { getSpecificEmployee } from "../ApiManager";
 
 export const Employee = () => {
     const [employee, setEmployee] = useState({})
@@ -7,7 +8,7 @@ export const Employee = () => {
 
     useEffect(
         () => {
-            return fetch(`http://localhost:8088/employees/${employeeId}`)
+            getSpecificEmployee(employeeId)
                 .then(response => response.json())
                 .then((data) => {
                     setEmployee(data)

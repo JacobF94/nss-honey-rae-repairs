@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom"
+import { getUserByEmail } from "../ApiManager";
 import "./Login.css"
 
 export const Login = () => {
@@ -8,15 +9,15 @@ export const Login = () => {
     const existDialog = useRef()
     const history = useHistory()
 
-    const existingUserCheck = () => {
-        return fetch(`http://localhost:8088/customers?email=${email}`)
+    const existingUserCheck = (data) => {return(
+        getUserByEmail(data)
             .then(res => res.json())
-            .then(user => user.length ? user[0] : false)
+            .then(user => user.length ? user[0] : false))
     }
 
     const handleLogin = (e) => {
         e.preventDefault()
-        existingUserCheck()
+        existingUserCheck(email)
             .then(exists => {
                 if (exists) {
                     localStorage.setItem("honey_customer", exists.id)

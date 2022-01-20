@@ -35,7 +35,7 @@ export const ApplicationViews = () => {
                 <TicketForm />
             </Route>
 
-            <Route path="/employee/create">
+            <Route exact path="/employee/create">
                 <EmployeeForm />
             </Route>
         </>
